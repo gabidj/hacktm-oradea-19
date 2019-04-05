@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Frontend\App;
 
+use ContainerInteropDoctrine\EntityManagerFactory;
+use Doctrine\ORM\EntityManager;
 use Dot\Mapper\Factory\DbMapperFactory;
 use Frontend\App\Entity\UserMessageEntity;
 use Frontend\App\Factory\ContactFormFactory;
@@ -44,6 +46,7 @@ class ConfigProvider
         return [
             'factories' => [
                 UserMessageService::class => InvokableFactory::class,
+                EntityManager::class => EntityManagerFactory::class
             ],
             'aliases' => [
                 UserMessageServiceInterface::class => UserMessageService::class,
