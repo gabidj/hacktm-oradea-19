@@ -72,6 +72,17 @@ class VenueEntity
      */
     protected $defaultImage;
 
+
+    /**
+     * @ORM\Column(type="string", nullable=false, name="description")
+     */
+    protected $description;
+
+    /**
+     * @ORM\Column(type="string", nullable=false, name="address")
+     */
+    protected $address;
+
     /**
      * Many features have one product. This is the owning side.
      * @ORM\ManyToOne(targetEntity="Oradea\HackTM\Entity\SportEntity", inversedBy="venues")
@@ -79,8 +90,57 @@ class VenueEntity
      */
     private $sports;
 
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Oradea\HackTM\Entity\VenueImageEntity", mappedBy="venues")
+     */
+    private $venueImages;
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Oradea\HackTM\Entity\ReviewEntity", mappedBy="venues")
+     */
+    private $reviews;
+
+
     public function __construct() {
         $this->sports = new ArrayCollection();
+        $this->venueImages = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * @param mixed $reviews
+     */
+    public function setReviews($reviews): void
+    {
+        $this->reviews = $reviews;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getVenueImages()
+    {
+        return $this->venueImages;
+    }
+
+    /**
+     * @param mixed $venueImages
+     */
+    public function setVenueImages($venueImages): void
+    {
+        $this->venueImages = $venueImages;
     }
 
     /**
@@ -261,12 +321,46 @@ class VenueEntity
         $this->sports = $sports;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address): void
+    {
+        $this->address = $address;
+    }
+
+
     public function toArray()
     {
         return [
             'id' => $this->getId(),
             'latitude' => $this->getLatitude(),
             'longitude' => $this->getLongitude(),
+            'address' => $this->getAddress(),
             'name' => $this->getName(),
             'surface' => $this->getSurface(),
             'mainSportId' => $this->getMainSportId(),
@@ -274,6 +368,10 @@ class VenueEntity
             'startHour' => $this->getStartHour(),
             'endHour' => $this->getEndHour(),
             'defaultImage' => $this->getDefaultImage(),
+            'description' => $this->getDescription(),
+            'images' => $this->getVenueImages()->map(function($entity) {return $entity->getImageUrl();})->toArray(),
+            'reviews' => $this->getReviews()->map(function($entity) {return $entity->toArray();})->toArray(),
+            'reviewsCount' => count($this->getReviews()->map(function($entity) {return $entity->toArray();})->toArray()),
         ];
     }
 }

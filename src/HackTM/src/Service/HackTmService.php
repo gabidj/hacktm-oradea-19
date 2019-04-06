@@ -9,7 +9,10 @@
 namespace Oradea\HackTM\Service;
 
 use Doctrine\ORM\EntityManager;
+use Oradea\HackTM\Entity\ReviewEntity;
 use Oradea\HackTM\Entity\SportEntity;
+use Oradea\HackTM\Entity\VenueEntity;
+use Oradea\HackTM\Entity\VenueImageEntity;
 use Zend\Expressive\Helper\ServerUrlHelper;
 
 class HackTmService
@@ -33,5 +36,11 @@ class HackTmService
     {
         $data = $this->entityManager->getRepository(SportEntity::class)->findOneBy(['name'=>$sportName]);
         return $data->toArray();
+    }
+
+    public function getVenueDetails(int $id)
+    {
+        $venue = $this->entityManager->getRepository(VenueEntity::class)->findOneBy(['id'=>$id]);
+        return $venue->toArray();
     }
 }

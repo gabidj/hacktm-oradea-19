@@ -69,6 +69,14 @@ class ViewController extends AbstractActionController implements UserControllerE
      */
     public function indexAction(): ResponseInterface
     {
-        exit("DASDA");
+        $id = $this->request->getAttribute('id', null);
+        if($id === null) {
+            return new HtmlResponse($this->template('error::404'));
+        }
+
+        $data = $this->service->getVenueDetails((int)$id);
+
+        return new HtmlResponse($this->template('hacktm::view',$data),200);
+        echo "<pre>"; var_dump($data);exit;
     }
 }

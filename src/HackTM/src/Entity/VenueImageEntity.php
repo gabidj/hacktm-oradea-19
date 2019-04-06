@@ -38,7 +38,7 @@ class VenueImageEntity
     protected $userId;
 
     /**
-     * @ORM\Column(type="integer", nullable=false, name="imageUrl")
+     * @ORM\Column(type="string", nullable=false, name="imageUrl")
      */
     protected $imageUrl;
 
@@ -51,6 +51,29 @@ class VenueImageEntity
      * @ORM\Column(type="integer", nullable=false, name="isAwaitingModeration")
      */
     protected $isAwaitingModeration;
+
+    /**
+     * Many features have one product. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="Oradea\HackTM\Entity\VenueEntity", inversedBy="venues")
+     * @ORM\JoinColumn(name="venueId", referencedColumnName="id")
+     */
+    private $venues;
+
+    /**
+     * @return mixed
+     */
+    public function getVenues()
+    {
+        return $this->venues;
+    }
+
+    /**
+     * @param mixed $venues
+     */
+    public function setVenues($venues): void
+    {
+        $this->venues = $venues;
+    }
 
     /**
      * @return mixed

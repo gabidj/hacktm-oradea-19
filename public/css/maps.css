@@ -1,0 +1,60 @@
+#map-container {
+    /*margin: auto;*/
+    width: 100%;
+    height: 300px;
+}
+
+
+.marker {
+    height: 50px;
+    margin-top: -50px;
+    margin-left: -17px;
+
+}
+
+.H_ib_body {
+    background: white;
+    color: black;
+    min-height: 10vh;
+    min-width: 20vh;
+    padding: 7px;
+}
+
+.H_ib_close > svg {
+    fill: black;
+    padding: 5px;
+}
+.H_ib_tail > svg {
+    fill: white;
+}
+
+.infoTitle {
+    margin-right: 15px;
+}
+.infoDesc {
+    font-size: 16px;
+    margin-top: 10px;
+}
+/* #pointer{
+    border:solid 10px transparent;
+    border-bottom-color: white;
+    position:absolute;
+    margin: 100px 0 0 0;
+} */
+.bookBtn {
+    display: block;
+    box-sizing: border-box;
+    background-color: #2ecc71;
+    text-decoration: none;
+    padding: 10px;
+    margin-top: 10px;
+    color: white;
+    font-style: Arial;
+    text-align: center;
+}
+.bookBtn:hover {
+    background-color: #27ae60;
+}
+.bookBtn:active {
+    background-color: #279a57;
+}

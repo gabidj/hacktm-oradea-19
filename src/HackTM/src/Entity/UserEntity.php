@@ -8,6 +8,7 @@
 
 namespace Oradea\HackTM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +52,34 @@ class UserEntity
      * @ORM\Column(type="datetime", nullable=false, name="dateCreated")
      */
     protected $date;
+
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Oradea\HackTM\Entity\UserEntity", mappedBy="user")
+     */
+    private $review;
+
+    public function __construct() {
+        $this->review = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReview()
+    {
+        return $this->review;
+    }
+
+    /**
+     * @param mixed $review
+     */
+    public function setReview($review): void
+    {
+        $this->review = $review;
+    }
+
 
     /**
      * @return mixed
@@ -156,7 +185,8 @@ class UserEntity
             'username' => $this->getUsername(),
             'email' => $this->getUsername(),
             'status' => $this->getStatus(),
-            'date' => $this->getDate()
+            'date' => $this->getDate(),
+//            'images' => $this->getVenueImages()->map(function($entity) {return $entity->getImageUrl();})->toArray(),
         ];
     }
 }

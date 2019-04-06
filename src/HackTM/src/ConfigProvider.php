@@ -20,6 +20,8 @@ use Oradea\HackTM\Controller\CategoryController;
 use Oradea\HackTM\Controller\CategoryControllerFactory;
 use Oradea\HackTM\Controller\HackTmController;
 use Oradea\HackTM\Controller\HackTmControllerFactory;
+use Oradea\HackTM\Controller\ViewController;
+use Oradea\HackTM\Controller\ViewControllerFactory;
 use Oradea\HackTM\Service\HackTmService;
 use Oradea\HackTM\Service\HackTmServiceFactory;
 
@@ -42,6 +44,7 @@ class ConfigProvider
                 EntityManager::class => EntityManagerFactory::class,
                 HackTmController::class => HackTmControllerFactory::class,
                 CategoryController::class => CategoryControllerFactory::class,
+                ViewController::class => ViewControllerFactory::class,
                 ApiCategoryController::class => ApiCategoryControllerFactory::class,
                 AppointmentController::class => AppointmentControllerFactory::class,
                 HackTmService::class => HackTmServiceFactory::class,

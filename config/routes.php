@@ -10,6 +10,7 @@ use Oradea\HackTM\Controller\AppointmentController;
 use Oradea\HackTM\Controller\HackTmController;
 use Oradea\HackTM\Controller\CategoryController;
 use Oradea\HackTM\Controller\ApiCategoryController;
+use Oradea\HackTM\Controller\ViewController;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
 use Zend\Expressive\MiddlewareFactory;
@@ -46,6 +47,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->route('/', [HackTmController::class], ['GET', 'POST'], 'home');
     $app->route('/category/{test}', [CategoryController::class], ['GET', 'POST'], 'category');
+    $app->route('/view/{id}', [ViewController::class], ['GET', 'POST'], 'view');
     $app->route('/api/category/{test}', [ApiCategoryController::class], ['GET', 'POST'], 'api-category');
 
 // following three routes are for user functionality
