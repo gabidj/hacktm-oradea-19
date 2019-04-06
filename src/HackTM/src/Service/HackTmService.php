@@ -32,9 +32,6 @@ class HackTmService
     public function getSport($sportName)
     {
         $data = $this->entityManager->getRepository(SportEntity::class)->findOneBy(['name'=>$sportName]);
-
-        var_dump($data->toArray());exit;
         return $data->toArray();
     }
-
 }
