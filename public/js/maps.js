@@ -129,6 +129,3 @@ $('document').ready(function(){
     $('head').append('<link rel="stylesheet" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" type="text/css" />');
 
 });
-
-
-// $('.H_ib_body').css({'background':'white'});​
