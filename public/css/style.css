@@ -1134,15 +1134,9 @@ input.form-control {
     height:40px;
 }
 
-#background-image {
-    /*position: relative;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*max-height: 50%;*/
-    /*max-width: 100%;*/
-}
-
-#background-image > img {
-    max-width: 100%;
-    max-height: 100%;
+.btn-primary {
+    background-color: #222222;
+    color :#FFFFFF;
+    border-radius: 25px;
+    border-color: black;
 }
