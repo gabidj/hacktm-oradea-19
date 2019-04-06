@@ -805,3 +805,10 @@ input.form-control {
     margin-top: 15px;
     font-size: 24px;
 }
+
+/** hacktm **/
+.navbar-brand img {
+    display: block;
+    width: 170px;
+    height: 32px;
+}
