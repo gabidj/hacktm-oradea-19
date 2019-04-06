@@ -6,6 +6,7 @@ use Dot\Rbac\Guard\Middleware\ForbiddenHandler;
 use Dot\Rbac\Guard\Middleware\RbacGuardMiddleware;
 use Dot\Session\SessionMiddleware;
 use Dot\User\Middleware\AutoLogin;
+use Tuupola\Middleware\CorsMiddleware;
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
@@ -28,6 +29,10 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 /** @var \Zend\Expressive\Application $app */
 $app->pipe(ErrorHandler::class);
 $app->pipe(ServerUrlMiddleware::class);
+
+$app->pipe(CorsMiddleware::class);
+
+
 
 // starts the session and tracks session activity
 $app->pipe(SessionMiddleware::class);

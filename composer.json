@@ -45,6 +45,7 @@
     "dotkernel/dot-twigrenderer": "1.1",
     "dotkernel/dot-user": "1.0",
     "dotkernel/dot-validator": "^1.1",
+    "tuupola/cors-middleware": "^0.9.4",
     "twig/twig": "2.1.0",
     "zendframework/zend-captcha": "^2.6",
     "zendframework/zend-component-installer": "2.0",
