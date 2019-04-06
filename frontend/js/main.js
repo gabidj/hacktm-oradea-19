@@ -1,6 +1,6 @@
-function moveMapToBerlin(map){
-  map.setCenter({lat:52.5159, lng:13.3777});
-  map.setZoom(14);
+function moveMapToBerlin(map) {
+    map.setCenter({lat: 52.5159, lng: 13.3777});
+    map.setZoom(14);
 }
 
 function addMarkersToMap(map) {
@@ -9,83 +9,82 @@ function addMarkersToMap(map) {
 }
 
 function addMarker(map, type, lat, long) {
-  var domElement = document.createElement('img');
+    var domElement = document.createElement('img');
 
-  // var venues = ["football", "basketball", "volley", "tennis"];
+    // var venues = ["football", "basketball", "volley", "tennis"];
 
-  // for (var i = 0; i < cars.length; i++) {
-  //     text += cars[i] + "<br>";
-  // }
+    // for (var i = 0; i < cars.length; i++) {
+    //     text += cars[i] + "<br>";
+    // }
 
-  if (type == "football") {
-      domElement.src = 'images/pin_football.png';
-  } else if (type == "basket") {
-      domElement.src = 'images/pin_basket.png';
-  } else if (type == "volley") {
-      domElement.src = 'images/pin_volley.png';
-  } else if (type == "tennis") {
-      domElement.src = 'images/pin_tennis.png';
-  }
-
-  domElement.className = "marker";
-
-
-  //interaction
-  function changeOpacity(evt) {
-    evt.target.style.opacity = 0.6;
-  };
-
-  function changeOpacityToOne(evt) {
-    evt.target.style.opacity = 1;
-  };
-
-  //create dom icon and add/remove opacity listeners
-  var domIcon = new H.map.DomIcon(domElement, {
-    // the function is called every time marker enters the viewport
-    onAttach: function(clonedElement, domIcon, domMarker) {
-      clonedElement.addEventListener('mouseover', changeOpacity);
-      clonedElement.addEventListener('mouseout', changeOpacityToOne);
-    },
-    // the function is called every time marker leaves the viewport
-    onDetach: function(clonedElement, domIcon, domMarker) {
-      clonedElement.removeEventListener('mouseover', changeOpacity);
-      clonedElement.removeEventListener('mouseout', changeOpacityToOne);
+    if (type == "football") {
+        domElement.src = 'images/pin_football.png';
+    } else if (type == "basket") {
+        domElement.src = 'images/pin_basket.png';
+    } else if (type == "volley") {
+        domElement.src = 'images/pin_volley.png';
+    } else if (type == "tennis") {
+        domElement.src = 'images/pin_tennis.png';
     }
-  });
 
-  var marker = new H.map.DomMarker({lat:lat, lng:long}, {
-    icon: domIcon
-  });
-  map.addObject(marker);
+    domElement.className = "marker";
+
+
+    //interaction
+    function changeOpacity(evt) {
+        evt.target.style.opacity = 0.6;
+    };
+
+    function changeOpacityToOne(evt) {
+        evt.target.style.opacity = 1;
+    };
+
+    //create dom icon and add/remove opacity listeners
+    var domIcon = new H.map.DomIcon(domElement, {
+        // the function is called every time marker enters the viewport
+        onAttach: function (clonedElement, domIcon, domMarker) {
+            clonedElement.addEventListener('mouseover', changeOpacity);
+            clonedElement.addEventListener('mouseout', changeOpacityToOne);
+        },
+        // the function is called every time marker leaves the viewport
+        onDetach: function (clonedElement, domIcon, domMarker) {
+            clonedElement.removeEventListener('mouseover', changeOpacity);
+            clonedElement.removeEventListener('mouseout', changeOpacityToOne);
+        }
+    });
+
+    var marker = new H.map.DomMarker({lat: lat, lng: long}, {
+        icon: domIcon
+    });
+    map.addObject(marker);
 }
 
 
 //API
 var request = new XMLHttpRequest()
 
-request.open('GET', 'http://htm19.gabisuciu.ro/api/category/football', true)
+request.open('GET', 'http://hacktm.local/api/category/football', true)
 
-request.onload = function() {
-  // Begin accessing JSON data here
-  var data = JSON.parse(this.response)
+request.onload = function () {
+    // Begin accessing JSON data here
+    var data = JSON.parse(this.response)
 
-  if (request.status >= 200 && request.status < 400) {
-    data.forEach(venue => {
-      console.log(venue.title)
-    })
-  } else {
-    console.log('error')
-  }
+    if (request.status >= 200 && request.status < 400) {
+        data.forEach(venue => {
+            console.log(venue.title)
+        })
+    } else {
+        console.log('error')
+    }
 }
 
 
 request.send()
 
 
-
 var platform = new H.service.Platform({
-  'app_id': '6YWqAz92yiVW4TmBg3ap',
-  'app_code': '2Njcxr7YQlMlNSSgJwckjQ'
+    'app_id': '6YWqAz92yiVW4TmBg3ap',
+    'app_code': '2Njcxr7YQlMlNSSgJwckjQ'
 });
 
 // Obtain the default map types from the platform object:
@@ -106,15 +105,6 @@ addMarkersToMap(map);
 $('head').append('<link rel="stylesheet" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" type="text/css" />');
 
 
-
-
-
-
-
-
-
-
-
 // /**
 //  * Moves the map to display over Berlin
 //  *
@@ -125,7 +115,6 @@ $('head').append('<link rel="stylesheet" href="https://js.api.here.com/v3/3.0/ma
 //   map.setZoom(14);
 // }
 //
-
 
 
 //
