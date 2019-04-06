@@ -8,6 +8,7 @@
 
 namespace Oradea\HackTM\Service;
 
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ExpressionBuilder;
 use Doctrine\ORM\EntityManager;
@@ -23,7 +24,7 @@ trait AppointmentsTrait
     /* @var HackTmService $this */
     public function listAppointments(array $options = [])
     {
-        $criteriaData = $options['criteria'] ?? [];
+        $criteriaData = $options['criteriaData'] ?? [];
         $criteria = $this->buildCriteria($criteriaData);
         /* @var HackTmService $this */
         $appointments = $this->entityManager->getRepository(AppointmentEntity::class)->matching($criteria);
@@ -38,8 +39,14 @@ trait AppointmentsTrait
         $criteria = new Criteria();
         $criteria->where($eb->neq('id', '0'));
         foreach ($data as $key => $value) {
-            if ($data['venueId']) {
+            if (isset($data['venueId'])) {
                 $criteria->andWhere($eb->eq('venueId', $data['venueId']));
+            }
+            if (isset($data['dateStart'], $data['dateEnd'])) {
+                $dateStart = DateTime::createFromFormat('Y-m-d H:i:s', $data['dateStart']);
+                $dateEnd = DateTime::createFromFormat('Y-m-d H:i:s', $data['dateEnd']);
+                $criteria->andWhere($eb->gte('date', $dateStart));
+                $criteria->andWhere($eb->lte('date', $dateEnd));
             }
         }
         return $criteria;
@@ -47,7 +54,7 @@ trait AppointmentsTrait
     public function extractOptionsFromRequest(RequestInterface $request)
     {
         $criteria = [];
-        $params = [];
+        $criteriaData = [];
         \parse_str($request->getUri()->getQuery(), $query);
 
         $date = trim($query['date'] ?? '#NO_OR_INVALID_DATE#');
@@ -55,14 +62,14 @@ trait AppointmentsTrait
             $criteria['venueId'] = (int)($query['venue']);
         }
 
-        if ($this->getDateFromStringWithFormat($date)) {
-            $params['dateStart'] = date('Y-m-d H:i:s', strtotime($date));
-            $params['dateEnd'] = date('Y-m-d H:i:s', strtotime($date . ' +1 day'));
+        if ($this->isDateValidWithFormat($date)) {
+            $criteriaData['dateStart'] = date('Y-m-d H:i:s', strtotime($date));
+            $criteriaData['dateEnd'] = date('Y-m-d H:i:s', strtotime($date . ' +1 day'));
         }
 
         $options = [
             'criteria' => $criteria,
-            'params' => $params
+            'criteriaData' => array_merge($criteria, $criteriaData)
         ];
         return $options;
     }
