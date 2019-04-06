@@ -20,6 +20,7 @@ use Oradea\HackTM\Service\HackTmService;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
 class AppointmentController extends AbstractActionController implements UserControllerEventListenerInterface
@@ -73,12 +74,64 @@ class AppointmentController extends AbstractActionController implements UserCont
         exit(__FILE__ . ':' . __LINE__);
     }
 
+    public function bookAction()
+    {
+        $redirUrl = '/map';
+        // this is for testing redirects + flash messages
+        $redirUrl = '/contact';
+        $cleanQuery = $this->service->getCleanQuery($this->request);
+        if (!is_numeric($cleanQuery['venue'] ?? null)) {
+            // no venue is provided
+            $this->messenger()->addError('No or invalid venue provided');
+            return new RedirectResponse($redirUrl);
+        }
+        $venue = $this->service->getVenueById($cleanQuery['venue']);
+        if ($venue === null) {
+            $this->messenger()->addError('Venue not found');
+            return new RedirectResponse($redirUrl);
+        }
+
+        if (($cleanQuery['date'] ?? null) === null) {
+            $this->messenger()->addError('Date not provided');
+            return new RedirectResponse($redirUrl);
+        }
+        $today = date('Y-m-d');
+        if ($cleanQuery['date'] <= $today) {
+            $this->messenger()->addError('Date must be starting tomorrow');
+            return new RedirectResponse($redirUrl);
+        }
+
+        $currentRoute = $this->routeHelper->generateUri([]);
+        $appointmentUnavailableUrl = $currentRoute->__toString().'?'.http_build_query($cleanQuery);
+
+
+        if ($this->request->getMethod() == 'POST') {
+            exit(__FILE__ . ':' . __LINE__);
+        }
+
+        $rawAppointments = $this->service->listAppointments($this->service->extractOptionsFromRequest($this->request));
+        $formattedAppointments = $this->service->formatAppointmentsForFrontend($venue, $rawAppointments);
+
+        $data = [
+            'appointments' => $formattedAppointments,
+            'query' => $cleanQuery,
+            'date' => $cleanQuery['date'],
+            'venue' => $venue
+        ];
+
+        return new HtmlResponse($this->template('appointment::list', $data));
+    }
+
     public function listAction()
     {
         $options = $this->service->extractOptionsFromRequest($this->request);
         $appointments = $this->service->listAppointments($options);
+        // $date = '2019-04-16 11:XX:XX';
+        $date = '2019-04-16 11:00:00';
+        $venue = 1;
+        $isAvl = $this->service->isDateTimeAvailable($venue, $date);
         echo '<pre/>';
-        \var_dump($appointments);
+        \var_dump($isAvl);
         exit(__FILE__ . ':' . __LINE__);
     }
 }
