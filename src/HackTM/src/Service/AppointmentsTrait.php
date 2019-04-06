@@ -61,7 +61,7 @@ trait AppointmentsTrait
         return true;
     }
 
-    public function createAppointment(AppointmentEntity $appointment)
+    public function saveAppointment(AppointmentEntity $appointment)
     {
         /* @var HackTmService $this */
         $em = $this->entityManager;
@@ -84,6 +84,9 @@ trait AppointmentsTrait
         foreach ($data as $key => $value) {
             if (isset($data['venueId'])) {
                 $criteria->andWhere($eb->eq('venueId', $data['venueId']));
+            }
+            if (isset($data['userId'])) {
+                $criteria->andWhere($eb->eq('userId', $data['userId']));
             }
             if (isset($data['dateStart'], $data['dateEnd'])) {
                 $dateStart = DateTime::createFromFormat('Y-m-d H:i:s', $data['dateStart']);

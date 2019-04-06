@@ -121,11 +121,10 @@ class AppointmentController extends AbstractActionController implements UserCont
             $appointment->setDate(\DateTime::createFromFormat('Y-m-d H:i:s', $cleanPost['appointmentDate']));
             $appointment->setUserId($userId);
             $appointment->setVenueId($venue['id']);
-            $this->service->createAppointment($appointment);
+            $this->service->saveAppointment($appointment);
 
-            // reached here --> available
-            exit(__FILE__ . ':' . __LINE__);
-            // store booking and
+            $this->messenger()->addSuccess('Booking successfully done');
+            return new RedirectResponse('/');
         }
 
 
@@ -165,8 +164,29 @@ class AppointmentController extends AbstractActionController implements UserCont
         return new HtmlResponse($this->template('appointment::book', $data));
     }
 
+    public function myAction()
+    {
+        if (!$this->authentication()->hasIdentity()) {
+            $this->messenger()->addError($this->userOptions->getMessagesOptions()
+                ->getMessage(MessagesOptions::UNAUTHORIZED));
+            return new RedirectResponse($this->routeHelper
+                ->generateUri($this->webAuthenticationOptions->getLoginRoute()));
+        }
+        
+        $options = $this->service->extractOptionsFromRequest($this->request);
+        $options['criteriaData']['userId'] = $this->authentication()->getIdentity()->getId();
+        $rawAppointments = $this->service->listAppointments($options);
+        $venues = $this->service->getAllVenues();
+        $data = [
+            'appointments' => $rawAppointments,
+            'venues' => $venues,
+        ];
+        return new HtmlResponse($this->template('appointment::my', $data));
+    }
+
     public function listAction()
     {
+
         $options = $this->service->extractOptionsFromRequest($this->request);
         $appointments = $this->service->listAppointments($options);
         // $date = '2019-04-16 11:XX:XX';
