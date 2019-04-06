@@ -79,12 +79,12 @@ class AppointmentController extends AbstractActionController implements UserCont
      */
     public function indexAction(): ResponseInterface
     {
-        exit(__FILE__ . ':' . __LINE__);
+        exit;
     }
 
     public function bookAction()
     {
-        $redirUrl = '/map';
+        $redirUrl = '/';
         // this is for testing redirects + flash messages
         $cleanQuery = $this->service->getCleanQuery($this->request);
 
@@ -124,7 +124,7 @@ class AppointmentController extends AbstractActionController implements UserCont
             $this->service->saveAppointment($appointment);
 
             $this->messenger()->addSuccess('Booking successfully done');
-            return new RedirectResponse('/');
+            return new RedirectResponse('/appointment/my');
         }
 
 
