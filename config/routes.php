@@ -6,6 +6,7 @@ use Dot\User\Controller\UserController as UserController;
 use Frontend\App\Controller\ContactController;
 use Frontend\App\Controller\PageController;
 use Frontend\User\Controller\UserController as FrontendUserController;
+use Oradea\HackTM\Controller\AppointmentController;
 use Oradea\HackTM\Controller\HackTmController;
 use Oradea\HackTM\Controller\CategoryController;
 use Oradea\HackTM\Controller\ApiCategoryController;
@@ -54,4 +55,5 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->route('/contact[/{action}]', [ContactController::class], ['GET', 'POST'], 'contact');
     $app->route('/page[/{action}]', [PageController::class], ['GET', 'POST'], 'page');
+    $app->route('/appointment[/{action}]', [AppointmentController::class], ['GET', 'POST'], 'appointment');
 };

@@ -14,6 +14,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Oradea\HackTM\Controller\ApiCategoryController;
 use Oradea\HackTM\Controller\ApiCategoryControllerFactory;
+use Oradea\HackTM\Controller\AppointmentController;
+use Oradea\HackTM\Controller\AppointmentControllerFactory;
 use Oradea\HackTM\Controller\CategoryController;
 use Oradea\HackTM\Controller\CategoryControllerFactory;
 use Oradea\HackTM\Controller\HackTmController;
@@ -41,6 +43,7 @@ class ConfigProvider
                 HackTmController::class => HackTmControllerFactory::class,
                 CategoryController::class => CategoryControllerFactory::class,
                 ApiCategoryController::class => ApiCategoryControllerFactory::class,
+                AppointmentController::class => AppointmentControllerFactory::class,
                 HackTmService::class => HackTmServiceFactory::class,
             ],
         ];
