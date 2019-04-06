@@ -41,12 +41,14 @@ trait AppointmentsTrait
         $hourOnly = $dateTimeObj->format('Y-m-d H:00:00');
         $dateTimeObj = DateTime::createFromFormat('Y-m-d H:i:s', $hourOnly);
 
-        $criteriaData = [
-            'venue' => $venue,
-            'date' => $dateTimeObj->format('Y-m-d')
+        $options = [
+            'criteriaData' => [
+                'venue' => $venue,
+                'date' => $dateTimeObj->format('Y-m-d')
+            ]
         ];
 
-        $appointments = $this->listAppointments();
+        $appointments = $this->listAppointments($options);
         $startTime = clone $dateTimeObj;
         $endTime = clone $dateTimeObj;
         $endTime->modify('+ 1 hours');
