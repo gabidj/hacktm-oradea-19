@@ -18,10 +18,8 @@ use Oradea\HackTM\Controller\CategoryController;
 use Oradea\HackTM\Controller\CategoryControllerFactory;
 use Oradea\HackTM\Controller\HackTmController;
 use Oradea\HackTM\Controller\HackTmControllerFactory;
-use Oradea\HackTM\Cors\CorsMiddlewareFactory;
 use Oradea\HackTM\Service\HackTmService;
 use Oradea\HackTM\Service\HackTmServiceFactory;
-use Tuupola\Middleware\CorsMiddleware;
 
 class ConfigProvider
 {
@@ -43,8 +41,6 @@ class ConfigProvider
                 CategoryController::class => CategoryControllerFactory::class,
                 ApiCategoryController::class => ApiCategoryControllerFactory::class,
                 HackTmService::class => HackTmServiceFactory::class,
-
-                CorsMiddleware::class => CorsMiddlewareFactory::class,
             ],
         ];
     }
