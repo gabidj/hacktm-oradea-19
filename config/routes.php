@@ -7,6 +7,7 @@ use Frontend\App\Controller\ContactController;
 use Frontend\App\Controller\PageController;
 use Frontend\User\Controller\UserController as FrontendUserController;
 use Oradea\HackTM\Controller\HackTmController;
+use Oradea\HackTM\Controller\CategoryController;
 
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
@@ -43,7 +44,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     /** @var \Zend\Expressive\Application $app */
 
     $app->route('/', [HackTmController::class], ['GET', 'POST'], 'home');
-//    $app->route('/test', [HackTmController::class], ['GET', 'POST'], 'test');
+    $app->route('/category/{test}', [CategoryController::class], ['GET', 'POST'], 'category');
 
 // following three routes are for user functionality
     $app->route('/user/login', LoginAction::class, ['GET', 'POST'], 'login');

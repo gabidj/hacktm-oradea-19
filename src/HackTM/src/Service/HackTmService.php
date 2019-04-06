@@ -9,6 +9,7 @@
 namespace Oradea\HackTM\Service;
 
 use Doctrine\ORM\EntityManager;
+use Oradea\HackTM\Entity\SportEntity;
 use Zend\Expressive\Helper\ServerUrlHelper;
 
 class HackTmService
@@ -21,6 +22,19 @@ class HackTmService
     {
         $this->entityManager = $entityManager;
         $this->urlHelper = $urlHelper;
+    }
+
+    public function test()
+    {
+       return $this->entityManager->getRepository(SportEntity::class)->findOneBy(['id'=>1]);
+    }
+
+    public function getSport($sportName)
+    {
+        $data = $this->entityManager->getRepository(SportEntity::class)->findOneBy(['name'=>$sportName]);
+
+        var_dump($data->toArray());exit;
+        return $data->toArray();
     }
 
 }

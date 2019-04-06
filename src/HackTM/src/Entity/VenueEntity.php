@@ -9,7 +9,7 @@
 namespace Oradea\HackTM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html
  *
@@ -51,6 +51,18 @@ class VenueEntity
      * @ORM\Column(type="integer", nullable=false, name="mainSportId")
      */
     protected $mainSportId;
+
+
+    /**
+     * Many features have one product. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="Oradea\HackTM\Entity\SportEntity", inversedBy="venues")
+     * @ORM\JoinColumn(name="mainSportId", referencedColumnName="id")
+     */
+    private $sports;
+
+    public function __construct() {
+        $this->sports = new ArrayCollection();
+    }
 
     /**
      * @return mixed
