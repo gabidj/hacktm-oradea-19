@@ -129,10 +129,9 @@ trait AppointmentsTrait
         $hourRange = range($startHour, $endHour, 1);
         $busyAppointments = [];
         foreach ($appointments as $appointment) {
-            $aHour = $this->getHourFromDate($appointment['date']);
+            $aHour = (int)$this->getHourFromDate($appointment['date']);
             $busyAppointments[$aHour] = $appointment;
         }
-
         $formattedAppointments = [];
         foreach ($hourRange as $hour) {
             $formattedAppointment = [];
