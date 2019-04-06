@@ -13,10 +13,12 @@ use Oradea\HackTM\Entity\ReviewEntity;
 use Oradea\HackTM\Entity\SportEntity;
 use Oradea\HackTM\Entity\VenueEntity;
 use Oradea\HackTM\Entity\VenueImageEntity;
+
 use Zend\Expressive\Helper\ServerUrlHelper;
 
 class HackTmService
 {
+    use AppointmentsTrait;
     protected $entityManager;
     protected $urlHelper;
     protected $entityRepository;
@@ -35,6 +37,18 @@ class HackTmService
     public function getSport($sportName)
     {
         $data = $this->entityManager->getRepository(SportEntity::class)->findOneBy(['name'=>$sportName]);
+        if ($data === null) {
+            return;
+        }
+        return $data->toArray();
+    }
+
+    public function getVenueById($id)
+    {
+        $data = $this->entityManager->getRepository(VenueEntity::class)->findOneBy(['id'=>$id]);
+        if ($data === null) {
+            return;
+        }
         return $data->toArray();
     }
 

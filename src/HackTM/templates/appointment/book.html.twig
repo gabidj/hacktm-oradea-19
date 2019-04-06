@@ -1,0 +1,53 @@
+{% extends '@layout/dual-content.html.twig' %}
+
+{% block content %}
+    <style>
+        .centerButton {
+            padding:10px;
+            display: block;
+            margin: auto;
+            text-align: center;
+        }
+        @media only screen and (max-width: 1023px) {
+            .bookMapView {
+                display: none;
+            }
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 no-padding forms">
+                <h1>Contact Us</h1>
+                <div class="form-content">
+                    {{ messagesPartial('partial::alerts') }}
+                    <form class="form" method="post">
+                        <div class="row">
+                            <div class="col-md-4 bookMapView">
+                                MAP will be here
+                                {{ venue.latitude }} - {{ venue.longitude }}
+                            </div>
+                            <div class="col-md-4">
+                                <select name="appointmentDate">
+                                    <option selected disabled> SSS </option>
+                                    {% for hour,appointment in appointments %}
+                                        <option value="{{ date }}  {{  "%02d"|format(hour)}}:00:00"
+                                                {{ appointment.isAvailable ? '' : 'disabled' }}
+                                        >{{  "%02d"|format(hour)}}:00</option>
+                                    {% endfor %}
+                                    <!-- venue id -->
+                                    <input type="hidden" name="venue" value="{{ venue.id }}"/>
+                                    {# {{ date }}  {{  "%02d"|format(hour)}}:00:00 {{ appointment.isAvailable }} #}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row centerButton">
+                                <input class="btn-primary" type="submit" value="Book"/>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
