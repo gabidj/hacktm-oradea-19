@@ -102,4 +102,29 @@ trait AppointmentsTrait
         ];
         return $options;
     }
+
+    public function formatAppointmentsForFrontend($venue, $appointments)
+    {
+        $startHour = $venue['startHour'];
+        $endHour = $venue['endHour'];
+
+        $hourRange = range($startHour, $endHour, 1);
+        $busyAppointments = [];
+        foreach ($appointments as $appointment) {
+            $aHour = $this->getHourFromDate($appointment['date']);
+            $busyAppointments[$aHour] = $appointment;
+        }
+
+        $formattedAppointments = [];
+        foreach ($hourRange as $hour) {
+            $formattedAppointment = [];
+            $formattedAppointment['isAvailable'] = 1;
+            if (isset($busyAppointments[$hour])) {
+                $formattedAppointment['isAvailable'] = 0;
+                $formattedAppointment['details'] = $busyAppointments[$hour];
+            }
+            $formattedAppointments[$hour] = $formattedAppointment;
+        }
+        return $formattedAppointments;
+    }
 }

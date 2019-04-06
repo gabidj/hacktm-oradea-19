@@ -70,4 +70,9 @@ trait UtilsTrait
 
         return $cleanQuery;
     }
+
+    public function getHourFromDate(\DateTime $date)
+    {
+        return $date->format('H');
+    }
 }

@@ -72,7 +72,8 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'hacktm' => [__DIR__ . '/../templates/hacktm']
+                'hacktm' => [__DIR__ . '/../templates/hacktm'],
+                'appointment' => [__DIR__ . '/../templates/appointment'],
             ]
         ];
     }
