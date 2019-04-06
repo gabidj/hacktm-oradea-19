@@ -15,7 +15,9 @@ use Dot\Helpers\Route\RouteHelper;
 use Dot\User\Event\DispatchUserControllerEventsTrait;
 use Dot\User\Event\UserControllerEventListenerInterface;
 use Dot\User\Event\UserControllerEventListenerTrait;
+use Dot\User\Options\MessagesOptions;
 use Dot\User\Options\UserOptions;
+use Oradea\HackTM\Entity\AppointmentEntity;
 use Oradea\HackTM\Service\HackTmService;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -50,6 +52,12 @@ class AppointmentController extends AbstractActionController implements UserCont
     protected $routeHelper;
 
     protected $entityManager;
+    
+    protected $defaultCleanOptions = [
+        'intKeys' => ['venue', 'venueId'],
+        'dateKeys' => ['date'],
+        'dateTimeKeys' => ['appointmentDate'],
+    ];
 
     public function __construct(
         $config,
@@ -78,8 +86,49 @@ class AppointmentController extends AbstractActionController implements UserCont
     {
         $redirUrl = '/map';
         // this is for testing redirects + flash messages
-        $redirUrl = '/contact';
         $cleanQuery = $this->service->getCleanQuery($this->request);
+
+        $currentRoute = $this->routeHelper->generateUri([]);
+        $appointmentUnavailableUrl = $currentRoute->__toString().'?'.http_build_query($cleanQuery);
+        //$redirUrl = $appointmentUnavailableUrl;
+
+        if ($this->request->getMethod() == 'POST') {
+            if (!$this->authentication()->hasIdentity()) {
+                $this->messenger()->addError($this->userOptions->getMessagesOptions()
+                    ->getMessage(MessagesOptions::UNAUTHORIZED));
+                return new RedirectResponse($this->routeHelper
+                    ->generateUri($this->webAuthenticationOptions->getLoginRoute()));
+            }
+            $currentUser = $this->authentication()->getIdentity();
+            $userId = $currentUser->getId();
+
+            $post = $post = $this->request->getParsedBody();
+            $cleanPost = $this->service->cleanArray($post, $this->defaultCleanOptions);
+
+            $venue = $this->service->getVenueById($cleanPost['venue']);
+            if ($venue === null) {
+                $this->messenger()->addError('Venue not found');
+                return new RedirectResponse($redirUrl);
+            }
+
+
+            if (!$this->service->isDateTimeAvailable($venue, $cleanPost['appointmentDate'] ?? '')) {
+                $this->messenger()->addError('Already booked');
+                return new RedirectResponse($appointmentUnavailableUrl);
+            }
+            // date is available
+            $appointment = new AppointmentEntity();
+            $appointment->setDate(\DateTime::createFromFormat('Y-m-d H:i:s', $cleanPost['appointmentDate']));
+            $appointment->setUserId($userId);
+            $appointment->setVenueId($venue['id']);
+            $this->service->createAppointment($appointment);
+
+            // reached here --> available
+            exit(__FILE__ . ':' . __LINE__);
+            // store booking and
+        }
+
+
         if (!is_numeric($cleanQuery['venue'] ?? null)) {
             // no venue is provided
             $this->messenger()->addError('No or invalid venue provided');
@@ -101,13 +150,7 @@ class AppointmentController extends AbstractActionController implements UserCont
             return new RedirectResponse($redirUrl);
         }
 
-        $currentRoute = $this->routeHelper->generateUri([]);
-        $appointmentUnavailableUrl = $currentRoute->__toString().'?'.http_build_query($cleanQuery);
 
-
-        if ($this->request->getMethod() == 'POST') {
-            exit(__FILE__ . ':' . __LINE__);
-        }
 
         $rawAppointments = $this->service->listAppointments($this->service->extractOptionsFromRequest($this->request));
         $formattedAppointments = $this->service->formatAppointmentsForFrontend($venue, $rawAppointments);
@@ -119,7 +162,7 @@ class AppointmentController extends AbstractActionController implements UserCont
             'venue' => $venue
         ];
 
-        return new HtmlResponse($this->template('appointment::list', $data));
+        return new HtmlResponse($this->template('appointment::book', $data));
     }
 
     public function listAction()
