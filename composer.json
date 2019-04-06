@@ -14,6 +14,7 @@
   },
   "require": {
     "php": "^7.1",
+    "dasprid/container-interop-doctrine": "^1.1",
     "dotkernel/dot-annotated-services": "^1.1",
     "dotkernel/dot-authentication-service": "^1.0",
     "dotkernel/dot-authentication-web": "^1.0",
@@ -75,6 +76,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Oradea\\HackTM\\": "src/HackTM/src",
       "Frontend\\App\\": "src/App/src",
       "Frontend\\User\\": "src/User/src",
       "Frontend\\Console\\": "src/Console/src"
