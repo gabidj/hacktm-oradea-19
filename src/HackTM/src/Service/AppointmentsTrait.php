@@ -9,6 +9,7 @@
 namespace Oradea\HackTM\Service;
 
 use DateTime;
+use DateTimeZone;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ExpressionBuilder;
 use Doctrine\ORM\EntityManager;
@@ -16,6 +17,7 @@ use Oradea\HackTM\Entity\AppointmentEntity;
 use Oradea\HackTM\Entity\SportEntity;
 use Psr\Http\Message\RequestInterface;
 use Zend\Expressive\Helper\ServerUrlHelper;
+use Zend\Validator\Date;
 
 trait AppointmentsTrait
 {
@@ -31,6 +33,30 @@ trait AppointmentsTrait
         $appointments->toArray();
         $appointments = $this->convertItemsToArray($appointments);
         return $appointments;
+    }
+
+    public function isDateTimeAvailable($venue, $dateTime)
+    {
+        $dateTimeObj = DateTime::createFromFormat('Y-m-d H:i:s', $dateTime);
+        $hourOnly = $dateTimeObj->format('Y-m-d H:00:00');
+        $dateTimeObj = DateTime::createFromFormat('Y-m-d H:i:s', $hourOnly);
+
+        $criteriaData = [
+            'venue' => $venue,
+            'date' => $dateTimeObj->format('Y-m-d')
+        ];
+
+        $appointments = $this->listAppointments();
+        $startTime = clone $dateTimeObj;
+        $endTime = clone $dateTimeObj;
+        $endTime->modify('+ 1 hours');
+        foreach ($appointments as $appointment) {
+            $appointmentDate = $appointment['date'];
+            if ($appointmentDate >= $startTime && $appointmentDate < $endTime) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function buildCriteria($data)
@@ -51,6 +77,7 @@ trait AppointmentsTrait
         }
         return $criteria;
     }
+
     public function extractOptionsFromRequest(RequestInterface $request)
     {
         $criteria = [];
