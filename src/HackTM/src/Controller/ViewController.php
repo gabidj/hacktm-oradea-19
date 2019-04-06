@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: Mario
  * Date: 4/6/2019
- * Time: 2:39 AM
+ * Time: 4:31 PM
  */
 
 namespace Oradea\HackTM\Controller;
-
 
 use Doctrine\ORM\EntityManager;
 use Dot\Authentication\Web\Options\WebAuthenticationOptions;
@@ -22,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class CategoryController extends AbstractActionController implements UserControllerEventListenerInterface
+class ViewController extends AbstractActionController implements UserControllerEventListenerInterface
 {
     use DispatchUserControllerEventsTrait;
     use UserControllerEventListenerTrait;
@@ -70,17 +69,6 @@ class CategoryController extends AbstractActionController implements UserControl
      */
     public function indexAction(): ResponseInterface
     {
-        $action = $this->request->getAttribute('test', null);
-
-        if(!in_array($action,['football','handball','tennis'])) {
-            return new HtmlResponse($this->template('error::404'));
-        }
-
-        $data = $this->service->getSport($action);
-
-        return new HtmlResponse($this->template(
-            'hacktm::categoryPage',
-            ['data' => $data]
-        ));
+        exit("DASDA");
     }
 }
