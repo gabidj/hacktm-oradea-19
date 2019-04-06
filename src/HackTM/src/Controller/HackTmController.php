@@ -82,7 +82,8 @@ class HackTmController extends AbstractActionController implements UserControlle
      */
     public function indexAction(): ResponseInterface
     {
-        $result = $this->service->test();
-        var_dump($result->toArray());exit;
+        return new HtmlResponse($this->template(
+            'hacktm::landingPage'
+        ));
     }
 }
