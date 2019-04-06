@@ -16,7 +16,8 @@
     color: black;
     min-height: 10vh;
     min-width: 20vh;
-    padding: 0 !important;
+    padding-right: 0 !important;
+    padding: 3px !important;
 }
 
 .H_ib_close > svg {
@@ -38,11 +39,10 @@
     display: block;
     box-sizing: border-box;
     background-color: #2ecc71;
-    text-decoration: none;
+    text-decoration: none !important;
     padding: 10px;
-    padding-left: 20px !important ;
     margin-top: 10px;
-    color: white;
+    color: white !important;
     font-style: Arial;
     text-align: center;
 }
