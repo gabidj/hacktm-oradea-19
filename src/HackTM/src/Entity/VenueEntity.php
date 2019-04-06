@@ -28,12 +28,12 @@ class VenueEntity
     protected $id;
 
     /**
-     * @ORM\Column(type="decimal", nullable=false, name="latitude")
+     * @ORM\Column(type="float", nullable=false, name="latitude")
      */
     protected $latitude;
 
     /**
-     * @ORM\Column(type="decimal", nullable=false, name="longitude")
+     * @ORM\Column(type="float", nullable=false, name="longitude")
      */
     protected $longitude;
 
@@ -67,6 +67,10 @@ class VenueEntity
      */
     protected $price;
 
+    /**
+     * @ORM\Column(type="string", nullable=false, name="defaultImage")
+     */
+    protected $defaultImage;
 
     /**
      * Many features have one product. This is the owning side.
@@ -78,6 +82,24 @@ class VenueEntity
     public function __construct() {
         $this->sports = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultImage()
+    {
+        return $this->defaultImage;
+    }
+
+    /**
+     * @param mixed $defaultImage
+     */
+    public function setDefaultImage($defaultImage): void
+    {
+        $this->defaultImage = $defaultImage;
+    }
+
+
 
     /**
      * @return mixed
@@ -251,6 +273,7 @@ class VenueEntity
             'price' => $this->getPrice(),
             'startHour' => $this->getStartHour(),
             'endHour' => $this->getEndHour(),
+            'defaultImage' => $this->getDefaultImage(),
         ];
     }
 }
