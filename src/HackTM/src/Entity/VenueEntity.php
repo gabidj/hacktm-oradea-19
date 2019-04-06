@@ -52,6 +52,21 @@ class VenueEntity
      */
     protected $mainSportId;
 
+    /**
+     * @ORM\Column(type="integer", nullable=false, name="startHour")
+     */
+    protected $startHour;
+
+    /**
+     * @ORM\Column(type="integer", nullable=false, name="endHour")
+     */
+    protected $endHour;
+
+    /**
+     * @ORM\Column(type="integer", nullable=false, name="price")
+     */
+    protected $price;
+
 
     /**
      * Many features have one product. This is the owning side.
@@ -160,6 +175,70 @@ class VenueEntity
         $this->mainSportId = $mainSportId;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStartHour()
+    {
+        return $this->startHour;
+    }
+
+    /**
+     * @param mixed $startHour
+     */
+    public function setStartHour($startHour): void
+    {
+        $this->startHour = $startHour;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndHour()
+    {
+        return $this->endHour;
+    }
+
+    /**
+     * @param mixed $endHour
+     */
+    public function setEndHour($endHour): void
+    {
+        $this->endHour = $endHour;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSports()
+    {
+        return $this->sports;
+    }
+
+    /**
+     * @param mixed $sports
+     */
+    public function setSports($sports): void
+    {
+        $this->sports = $sports;
+    }
+
     public function toArray()
     {
         return [
@@ -169,6 +248,9 @@ class VenueEntity
             'name' => $this->getName(),
             'surface' => $this->getSurface(),
             'mainSportId' => $this->getMainSportId(),
+            'price' => $this->getPrice(),
+            'startHour' => $this->getStartHour(),
+            'endHour' => $this->getEndHour(),
         ];
     }
 }

@@ -156,8 +156,8 @@ class ConfigProvider
                 ],
 
                 'after_login_route' => [
-                    'route_name' => 'user',
-                    'route_params' => ['action' => 'account']
+                    'route_name' => 'home',
+                    'route_params' => ['action' => 'index']
                 ],
 
                 'event_listeners' => [

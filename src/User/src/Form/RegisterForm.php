@@ -32,10 +32,10 @@ class RegisterForm extends \Dot\User\Form\RegisterForm
                 'passwordConfirm',
             ]
         ];
-        if ($this->has('captcha')) {
-            $validationGroup[] = 'captcha';
-            $this->get('captcha')->setLabel('Click below to verify you are human');
-        }
+//        if ($this->has('captcha')) {
+//            $validationGroup[] = 'captcha';
+//            $this->get('captcha')->setLabel('Click below to verify you are human');
+//        }
         // add submit to validation group,
         // not needed usually bu needed for the form display helper partial template
         $validationGroup[] = 'submit';

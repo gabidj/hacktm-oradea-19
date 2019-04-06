@@ -12,6 +12,8 @@ use ContainerInteropDoctrine\EntityManagerFactory;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Oradea\HackTM\Controller\ApiCategoryController;
+use Oradea\HackTM\Controller\ApiCategoryControllerFactory;
 use Oradea\HackTM\Controller\CategoryController;
 use Oradea\HackTM\Controller\CategoryControllerFactory;
 use Oradea\HackTM\Controller\HackTmController;
@@ -37,6 +39,7 @@ class ConfigProvider
                 EntityManager::class => EntityManagerFactory::class,
                 HackTmController::class => HackTmControllerFactory::class,
                 CategoryController::class => CategoryControllerFactory::class,
+                ApiCategoryController::class => ApiCategoryControllerFactory::class,
                 HackTmService::class => HackTmServiceFactory::class
             ],
         ];
