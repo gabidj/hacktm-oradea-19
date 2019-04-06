@@ -101,14 +101,14 @@ return [
                                         'icon' => 'fa fa-tennis'
                                     ]
                                 ],
-
-                                [
-                                    'options' => [
-                                        'label' => 'Volley',
-                                        'uri' => '/category/volley',
-                                        'icon' => 'fa fa-volley'
-                                    ]
-                                ],
+//
+//                                [
+//                                    'options' => [
+//                                        'label' => 'Volley',
+//                                        'uri' => '/category/volley',
+//                                        'icon' => 'fa fa-volley'
+//                                    ]
+//                                ],
 
 
 //                                [
