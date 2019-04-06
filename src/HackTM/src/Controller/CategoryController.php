@@ -20,7 +20,6 @@ use Dot\User\Options\UserOptions;
 use Oradea\HackTM\Service\HackTmService;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\JsonResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
 class CategoryController extends AbstractActionController implements UserControllerEventListenerInterface
@@ -74,11 +73,15 @@ class CategoryController extends AbstractActionController implements UserControl
         $action = $this->request->getAttribute('test', null);
 
         if(!in_array($action,['football','handball','tennis'])) {
-            return new JsonResponse($this->template('error::404'), 404);
+            return new HtmlResponse($this->template('error::404'));
         }
 
         $data = $this->service->getSport($action);
 
-        return new JsonResponse(200, $data);
+//        echo "<pre>"; var_dump($data);exit;
+        return new HtmlResponse($this->template(
+            'hacktm::categoryPage',
+            ['data' => $data]
+        ));
     }
 }

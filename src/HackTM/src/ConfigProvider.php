@@ -28,6 +28,7 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'doctrine' => $this->getDoctrineEntities(),
+            'templates' => $this->getTemplates(),
         ];
 
     }
@@ -61,6 +62,15 @@ class ConfigProvider
                     'paths' => [__DIR__ . 'Oradea/HackTM/Entity'],
                 ],
             ],
+        ];
+    }
+
+    public function getTemplates(): array
+    {
+        return [
+            'paths' => [
+                'hacktm' => [__DIR__ . '/../templates/hacktm']
+            ]
         ];
     }
 }

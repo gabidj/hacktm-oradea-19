@@ -74,7 +74,9 @@ class ApiCategoryController extends AbstractActionController implements UserCont
         if(!in_array($action,['football','handball','tennis'])) {
             return new JsonResponse(['error'=>'Invalid cateogry provided.',400],400);
         }
-        $data = $this->service->getSport($action);
-        return new JsonResponse(['data'=>$data],200);
+        $data = [];
+        $data['sportWithVenues'] = $this->service->getSport($action);
+
+        return new JsonResponse($data,200);
     }
 }
