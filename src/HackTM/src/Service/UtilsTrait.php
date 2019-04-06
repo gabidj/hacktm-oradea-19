@@ -10,6 +10,7 @@ namespace Oradea\HackTM\Service;
 
 use Doctrine\ORM\EntityManager;
 use Oradea\HackTM\Entity\SportEntity;
+use Psr\Http\Message\RequestInterface;
 use Zend\Expressive\Helper\ServerUrlHelper;
 use DateTime;
 
@@ -34,5 +35,39 @@ trait UtilsTrait
         $d = DateTime::createFromFormat($format, $date);
         // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
         return $d && $d->format($format) === $date;
+    }
+
+    public function getCleanQuery(RequestInterface $request)
+    {
+        $cleanQuery = [];
+        $intKeys = ['venue', 'venueId'];
+        $dateKeys = ['date'];
+        $dateTimeKeys = ['appointmentDate'];
+
+        \parse_str($request->getUri()->getQuery(), $query);
+
+        foreach ($intKeys as $key) {
+            if (is_numeric($query[$key] ?? '')) {
+                $cleanQuery[$key] = (int)($query[$key]);
+            }
+        }
+        foreach ($dateKeys as $key) {
+            // hackish date cleaning
+            $date = trim($query[$key] ?? '#NO_OR_INVALID_DATE#');
+            // $date = str_replace('_', ' ', $date);
+            if ($this->isDateValidWithFormat($date, 'Y-m-d')) {
+                $cleanQuery[$key] = $query[$key];
+            }
+        }
+        foreach ($dateTimeKeys as $key) {
+            // hackish date cleaning
+            $date = trim($query[$key] ?? '#NO_OR_INVALID_DATE#');
+            // $date = str_replace('_', ' ', $date);
+            if ($this->isDateValidWithFormat($date, 'Y-m-d H:i:s')) {
+                $cleanQuery[$key] = $query[$key];
+            }
+        }
+
+        return $cleanQuery;
     }
 }
