@@ -58,7 +58,6 @@ class AppointmentController extends AbstractActionController implements UserCont
         RouteHelper $routeHelper,
         EntityManager $entityManager
     ) {
-        exit(__FILE__ . ':' . __LINE__);
         $this->config = $config;
         $this->service = $service;
         $this->webAuthenticationOptions = $webAuthenticationOptions;
@@ -71,9 +70,15 @@ class AppointmentController extends AbstractActionController implements UserCont
      */
     public function indexAction(): ResponseInterface
     {
+        exit(__FILE__ . ':' . __LINE__);
+    }
 
+    public function listAction()
+    {
+        $options = $this->service->extractOptionsFromRequest($this->request);
+        $appointments = $this->service->listAppointments($options);
         echo '<pre/>';
-        \var_dump(1);
+        \var_dump($appointments);
         exit(__FILE__ . ':' . __LINE__);
     }
 }

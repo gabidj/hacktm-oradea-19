@@ -14,6 +14,8 @@ use Zend\Expressive\Helper\ServerUrlHelper;
 
 class HackTmService
 {
+    use AppointmentsTrait;
+    
     protected $entityManager;
     protected $urlHelper;
     protected $entityRepository;
