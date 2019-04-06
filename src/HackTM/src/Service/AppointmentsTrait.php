@@ -61,6 +61,21 @@ trait AppointmentsTrait
         return true;
     }
 
+    public function createAppointment(AppointmentEntity $appointment)
+    {
+        /* @var HackTmService $this */
+        $em = $this->entityManager;
+        try {
+            //save to database
+            $em->persist($appointment);
+            $em->flush();
+            return true;
+        } catch (\Exception $err) {
+            return false;
+        };
+        return true;
+    }
+
     public function buildCriteria($data)
     {
         $eb = new ExpressionBuilder();
@@ -106,7 +121,7 @@ trait AppointmentsTrait
     public function formatAppointmentsForFrontend($venue, $appointments)
     {
         $startHour = $venue['startHour'];
-        $endHour = $venue['endHour'];
+        $endHour = $venue['endHour'] - 1;
 
         $hourRange = range($startHour, $endHour, 1);
         $busyAppointments = [];

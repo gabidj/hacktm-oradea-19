@@ -39,36 +39,47 @@ trait UtilsTrait
 
     public function getCleanQuery(RequestInterface $request)
     {
-        $cleanQuery = [];
-        $intKeys = ['venue', 'venueId'];
-        $dateKeys = ['date'];
-        $dateTimeKeys = ['appointmentDate'];
+        $options = [
+            'intKeys' => ['venue', 'venueId'],
+            'dateKeys' => ['date'],
+            'dateTimeKeys' => ['appointmentDate'],
+        ];
 
         \parse_str($request->getUri()->getQuery(), $query);
 
+        return $this->cleanArray($query, $options);
+    }
+
+    public function cleanArray($array, $options)
+    {
+        $cleanArray = [];
+        $intKeys = $options['intKeys'] ?? [];
+        $dateKeys = $options['dateKeys'] ?? [];
+        $dateTimeKeys = $options['dateTimeKeys'] ?? [];
+
+
         foreach ($intKeys as $key) {
-            if (is_numeric($query[$key] ?? '')) {
-                $cleanQuery[$key] = (int)($query[$key]);
+            if (is_numeric($array[$key] ?? '')) {
+                $cleanArray[$key] = (int)($array[$key]);
             }
         }
         foreach ($dateKeys as $key) {
             // hackish date cleaning
-            $date = trim($query[$key] ?? '#NO_OR_INVALID_DATE#');
+            $date = trim($array[$key] ?? '#NO_OR_INVALID_DATE#');
             // $date = str_replace('_', ' ', $date);
             if ($this->isDateValidWithFormat($date, 'Y-m-d')) {
-                $cleanQuery[$key] = $query[$key];
+                $cleanArray[$key] = $array[$key];
             }
         }
         foreach ($dateTimeKeys as $key) {
             // hackish date cleaning
-            $date = trim($query[$key] ?? '#NO_OR_INVALID_DATE#');
+            $date = trim($array[$key] ?? '#NO_OR_INVALID_DATE#');
             // $date = str_replace('_', ' ', $date);
             if ($this->isDateValidWithFormat($date, 'Y-m-d H:i:s')) {
-                $cleanQuery[$key] = $query[$key];
+                $cleanArray[$key] = $array[$key];
             }
         }
-
-        return $cleanQuery;
+        return $cleanArray;
     }
 
     public function getHourFromDate(\DateTime $date)
