@@ -1,0 +1,43 @@
+{% extends '@layout/dual-content.html.twig' %}
+
+{% block content %}
+    <style>
+        .centerButton {
+            padding:10px;
+            display: block;
+            margin: auto;
+            text-align: center;
+        }
+        @media only screen and (max-width: 1023px) {
+            .bookMapView {
+                display: none;
+            }
+        }
+    </style>
+    <br/>
+    <div class="container">
+        <div class="table table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Venue</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                        <tr>
+                            <td>{{ appointment.id }}</td>
+                            <td>{{ venues[appointment.venueId].name }}</td>
+                            <td>{{ appointment.date|date("d.m.Y")}}</td>
+                            <td>{{ appointment.date|date("H:i")}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}

@@ -52,6 +52,20 @@ class HackTmService
         return $data->toArray();
     }
 
+    public function getAllVenues()
+    {
+        $data = $this->entityManager->getRepository(VenueEntity::class)->findAll();
+        if ($data === null) {
+            return;
+        }
+        $venues = $this->convertItemsToArray($data);
+        $kVenues = [];
+        foreach ($venues as $venue) {
+            $kVenues[$venue['id']] = $venue;
+        }
+        return $kVenues;
+    }
+
     public function getVenueDetails(int $id)
     {
         $venue = $this->entityManager->getRepository(VenueEntity::class)->findOneBy(['id'=>$id]);

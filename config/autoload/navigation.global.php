@@ -57,14 +57,14 @@ return [
                     'items' => [
                         [
                             'options' => [
-                                'label' => 'Pages',
+                                'label' => 'Get moving',
                                 'uri' => '#',
                                 'icon' => '',
                             ],
                             'pages' => [
                                 [
                                     'options' => [
-                                        'label' => 'Home',
+                                        'label' => 'Choose sport',
                                         'route' => [
                                             'route_name' => 'home',
                                         ],
@@ -77,42 +77,66 @@ return [
                                         'type' => 'separator',
                                     ]
                                 ],
+
                                 [
                                     'options' => [
-                                        'label' => 'About Us',
-                                        'route' => [
-                                            'route_name' => 'page',
-                                            'route_params' => ['action' => 'about-us']
-                                        ],
-                                        'icon' => 'fa fa-info-circle'
+                                        'label' => 'Football',
+                                        'uri' => '/category/football',
+                                        'icon' => 'fa fa-football'
                                     ]
                                 ],
+
                                 [
                                     'options' => [
-                                        'label' => 'Who we are',
-                                        'route' => [
-                                            'route_name' => 'page',
-                                            'route_params' => ['action' => 'who-we-are']
-                                        ],
-                                        'icon' => 'fa fa-copyright'
+                                        'label' => 'Basketball',
+                                        'uri' => '/category/basketball',
+                                        'icon' => 'fa fa-basketball'
                                     ]
                                 ],
+
                                 [
                                     'options' => [
-                                        'label' => 'separator',
-                                        'type' => 'separator',
+                                        'label' => 'Tennis',
+                                        'uri' => '/category/tennis',
+                                        'icon' => 'fa fa-tennis'
                                     ]
                                 ],
+
                                 [
                                     'options' => [
-                                        'label' => 'Protected content',
-                                        'route' => [
-                                            'route_name' => 'page',
-                                            'route_params' => ['action' => 'premium-content']
-                                        ],
-                                        'icon' => 'fa fa-trophy'
+                                        'label' => 'Volley',
+                                        'uri' => '/category/volley',
+                                        'icon' => 'fa fa-volley'
                                     ]
                                 ],
+
+
+//                                [
+//                                    'options' => [
+//                                        'label' => 'Who we are',
+//                                        'route' => [
+//                                            'route_name' => 'page',
+//                                            'route_params' => ['action' => 'who-we-are']
+//                                        ],
+//                                        'icon' => 'fa fa-copyright'
+//                                    ]
+//                                ],
+//                                [
+//                                    'options' => [
+//                                        'label' => 'separator',
+//                                        'type' => 'separator',
+//                                    ]
+//                                ],
+//                                [
+//                                    'options' => [
+//                                        'label' => 'Protected content',
+//                                        'route' => [
+//                                            'route_name' => 'page',
+//                                            'route_params' => ['action' => 'premium-content']
+//                                        ],
+//                                        'icon' => 'fa fa-trophy'
+//                                    ]
+//                                ],
                             ]
                         ],
                         [
@@ -127,16 +151,16 @@ return [
                                 'icon' => '',
                             ]
                         ],
-                        [
-                            'options' => [
-                                'label' => 'Contribute',
-                                'uri' => 'https://github.com/dotkernel',
-                                'icon' => '',
-                            ],
-                            'attributes' => [
-                                'target' => '_blank'
-                            ],
-                        ],
+//                        [
+//                            'options' => [
+//                                'label' => 'Contribute',
+//                                'uri' => 'https://github.com/dotkernel',
+//                                'icon' => '',
+//                            ],
+//                            'attributes' => [
+//                                'target' => '_blank'
+//                            ],
+//                        ],
                     ],
                 ],
             ],
