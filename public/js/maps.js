@@ -15,7 +15,7 @@ function addMarkersToMap(map) {
         var venue = data.sportWithVenues.venues[i];
         addMarker(map, {type:data.sportWithVenues.name, lat:venue.latitude, long:venue.longitude,
             name:venue.name, price:venue.price, startHour: venue.startHour,
-            endHour: venue.endHour});
+            endHour: venue.endHour, id: venue.id});
     }
 }
 
@@ -240,7 +240,7 @@ function addMarkerToGroup(marker, group, html) {
 
 function addMarker(map, info) {
     var domElement = document.createElement('img');
-
+    console.log(info);
     if (info.type == "football") {
         domElement.src = '/img/pin_football.png';
     } else if (info.type == "basket") {
@@ -297,7 +297,7 @@ function addMarker(map, info) {
 
     addMarkerToGroup(marker, group,
         '<div class="infoTitle">' +info.name+ '' +
-        '</div><div class="infoDesc"> price: '+info.price+' ron <br> Mon-Sun: '+info.startHour+':00-'+info.endHour+':00 <a class="bookBtn" href="#">Book</a></div>');
+        '</div><div class="infoDesc"> price: '+info.price+' ron <br> Mon-Sun: '+info.startHour+':00-'+info.endHour+':00 <a class="bookBtn" href="/view/'+info.id+'">Book</a></div>');
 }
 
 
@@ -321,6 +321,10 @@ $('document').ready(function(){
 
 
     mapElement = document.getElementById("map-container");
+
+    if (mapElement != null) {
+
+
 
     if ( $('#map-container').attr('name') == "bookingMap") {
         currentMap = 1;
@@ -360,5 +364,6 @@ $('document').ready(function(){
 
 
     $('head').append('<link rel="stylesheet" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" type="text/css" />');
+    }
 
 });
