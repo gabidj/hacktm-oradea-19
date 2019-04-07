@@ -20,4 +20,15 @@ $(document).ready(function () {
             $('.panel-title .closed').removeClass("closed").addClass("open");
 		    }
     });
+
+    $( "#scheduleGame" ).click(function() {
+        var date =  $("#bookingDate").val();
+        var venueId = $("#venueId").val();
+        var fields = date.split('-');
+        var currentLink = window.location.href.split('/');
+        var redirectLink = "http://" + currentLink[2] + "/appointment/book?venue="+ venueId + "&date=" + fields[0] + "-" + fields[1] + "-" + fields[2];
+        window.location.href = redirectLink;
+    });
+
 });
+

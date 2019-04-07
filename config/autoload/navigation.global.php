@@ -80,6 +80,21 @@ return [
 
                                 [
                                     'options' => [
+                                        'label' => 'My Appointments',
+                                        'uri' => '/appointment/my',
+                                        'icon' => 'fas fa-user'
+                                    ]
+                                ],
+
+                                [
+                                    'options' => [
+                                        'label' => 'separator',
+                                        'type' => 'separator',
+                                    ]
+                                ],
+
+                                [
+                                    'options' => [
                                         'label' => 'Football',
                                         'uri' => '/category/football',
                                         'icon' => 'fa fa-football'
@@ -101,6 +116,7 @@ return [
                                         'icon' => 'fa fa-tennis'
                                     ]
                                 ],
+
 //
 //                                [
 //                                    'options' => [
