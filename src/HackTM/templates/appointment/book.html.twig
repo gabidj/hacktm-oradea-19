@@ -27,9 +27,9 @@
                             <div class="col-md-4 col-lg-5 bookMapView">
                                 <div class="form-group ">
                                     <label>Map</label>
-                                    <div id="map-container">
+                                    <div name="bookingMap" id="map-container">
                                     </div>
-                                    {{ venue.latitude }} - {{ venue.longitude }}
+                                    <div id="hardcodeCoord">{{ venue.latitude }} - {{ venue.longitude }}</div>
                                 </div>
 
                             </div>
@@ -53,6 +53,12 @@
                                         <input type="hidden" name="venue" value="{{ venue.id }}"/>
                                         {# {{ date }}  {{  "%02d"|format(hour)}}:00:00 {{ appointment.isAvailable }} #}
                                     </select>
+                                <br/><br/>
+                                <label for="routingInstructions">Routing Instructions</label>
+                                <div name="routingInstructions" id="routingInstructions"></div>
+
+
+
                                 </div>
                             </div>
                         </div>
