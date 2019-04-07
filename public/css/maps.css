@@ -52,3 +52,7 @@
 .bookBtn:active {
     background-color: #279a57;
 }
+#routingInstructions {
+    display: block;
+    font-size: 20px !important;
+}
