@@ -1,9 +1,9 @@
 var data;
 var ui;
 var behavior;
-console.log($("#map-container"));
+var currentMap;
 
-function moveMapToBerlin(map){
+function moveMapToOradea(map){
     map.setCenter({lat:47.063711 , lng:21.930863});
     map.setZoom(14);
 }
@@ -15,6 +15,22 @@ function addMarkersToMap(map) {
             name:venue.name, price:venue.price, startHour: venue.startHour,
             endHour: venue.endHour});
     }
+}
+
+function addCurrentMarker(map) {
+    hardcodeElem = document.getElementById("hardcodeCoord")
+    lat = hardcodeElem.innerHTML.split(" - ")[0]
+    long = hardcodeElem.innerHTML.split(" - ")[1]
+    addMarker(map, {type:"football", lat:lat, long:long,
+        name:"", price:"", startHour: "",
+        endHour: ""})
+    hardcodeElem.style.display = "none";
+    map.setCenter({lat:lat , lng:long});
+    map.setZoom(14);
+    //////
+    // addMarker(map, {type:data.sportWithVenues.name, lat:venue.latitude, long:venue.longitude,
+    //     name:venue.name, price:venue.price, startHour: venue.startHour,
+    //     endHour: venue.endHour});
 }
 
 function addMarkerToGroup(marker, group, html) {
@@ -71,23 +87,18 @@ function addMarker(map, info) {
     var group = new H.map.Group();
     map.addObject(group);
 
-    // add 'tap' event listener, that opens info bubble, to the group
-    group.addEventListener('tap', function (evt) {
-        // event target is the marker itself, group is a parent event target
-        // for all objects that it contains
-        var bubble =  new H.ui.InfoBubble(evt.target.getPosition(), {
-            // read custom data
-            content: evt.target.getData()
-        });
-        // show info bubble
-        ui.addBubble(bubble);
-    }, false);
+    if (currentMap == 0) {
+        group.addEventListener('tap', function (evt) {
+            var bubble =  new H.ui.InfoBubble(evt.target.getPosition(), {
+                content: evt.target.getData()
+            });
+            ui.addBubble(bubble);
+        }, false);
+    }
 
     addMarkerToGroup(marker, group,
         '<div class="infoTitle">' +info.name+ '' +
         '</div><div class="infoDesc"> price: '+info.price+' ron <br> Mon-Sun: '+info.startHour+':00-'+info.endHour+':00 <a class="bookBtn" href="#">Book</a></div>');
-
-    //map.addObject(marker);
 }
 
 
@@ -99,33 +110,59 @@ $('document').ready(function(){
         'app_code': '2Njcxr7YQlMlNSSgJwckjQ'
     });
 
-// Obtain the default map types from the platform object:
     var defaultLayers = platform.createDefaultLayers();
 
-    var map = new H.Map(document.getElementById('map-container'), defaultLayers.normal.map);
+    currentMap = 0;
+
+    // mapElement = document.getElementById("map-container");
+    // if (mapElement == null) {
+    //     mapElement = document.getElementById("booking-map-container");
+    //     currentMap = 1;
+    // }
+
+
+    mapElement = document.getElementById("map-container");
+
+    if (mapElement == null) {
+        console.log("mapElement is not found");
+        exit();
+    }
+
+    if ( $('#map-container').attr('name') == "bookingMap") {
+        currentMap = 1;
+        console.log("Booking map found")
+    }
+
+    var map = new H.Map(mapElement, defaultLayers.normal.map);
     behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     ui = H.ui.UI.createDefault(map, defaultLayers);
 
     //API
-    var request = new XMLHttpRequest();
+    if (currentMap == 0) {
+        var request = new XMLHttpRequest();
 
-    request.open('GET', 'http://hacktm.local/api/category/football', true);
+        request.open('GET', 'http://hacktm.local/api/category/football', true);
 
-    request.onload = function() {
-        // Begin accessing JSON data here
-        var api = JSON.parse(this.response)
-        if (request.status >= 200 && request.status < 400) {
-            data = api;
-            console.log(data);
-            addMarkersToMap(map);
-        } else {
-            console.log('error')
+        request.onload = function() {
+            // Begin accessing JSON data here
+            var api = JSON.parse(this.response)
+            if (request.status >= 200 && request.status < 400) {
+                data = api;
+                console.log(data);
+                addMarkersToMap(map);
+            } else {
+                console.log('error')
+            }
         }
+
+        request.send();
+
+        moveMapToOradea(map);
+    } else {
+        addCurrentMarker(map);
     }
 
-    request.send();
 
-    moveMapToBerlin(map);
     $('head').append('<link rel="stylesheet" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" type="text/css" />');
 
 });
