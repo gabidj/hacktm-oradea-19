@@ -322,11 +322,6 @@ $('document').ready(function(){
 
     mapElement = document.getElementById("map-container");
 
-    if (mapElement == null) {
-        console.log("mapElement is not found");
-        exit();
-    }
-
     if ( $('#map-container').attr('name') == "bookingMap") {
         currentMap = 1;
         console.log("Booking map found")
