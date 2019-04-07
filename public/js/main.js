@@ -28,7 +28,7 @@ $(document).ready(function () {
         var currentLink = window.location.href.split('/');
         var redirectLink = "http://" + currentLink[2] + "/appointment/book?venue="+ venueId + "&date=" + fields[0] + "-" + fields[1] + "-" + fields[2];
 
-        setTimeout(function(){ window.location.replace = redirectLink; }, 500);
+        setTimeout(function(){ window.location.replace(redirectLink); }, 1000);
     });
 
 });
