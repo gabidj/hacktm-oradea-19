@@ -55,3 +55,7 @@
 #routingInstructions {
     display: block;
 }
+#btnBook {
+    width: 100px;
+    border-radius: 10px;
+}
