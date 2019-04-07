@@ -7,7 +7,7 @@ var routeInstructionsContainer;
 
 function moveMapToOradea(map){
     map.setCenter({lat:47.063711 , lng:21.930863});
-    map.setZoom(14);
+    map.setZoom(13);
 }
 
 function addMarkersToMap(map) {
